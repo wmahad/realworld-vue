@@ -60,11 +60,12 @@ export const actions = {
     const event = getters.getEventById(id)
     if (event) {
       commit('SET_EVENT', event)
-      return
+      return event
     }
     try {
       const { data } = await getEvent(id)
       commit('SET_EVENT', data)
+      return data
     } catch (error) {
       const notification = {
         type: 'error',

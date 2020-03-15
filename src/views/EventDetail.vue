@@ -27,10 +27,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
-  props: ['id'],
+  props: {
+    event: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     numberOfAttendees() {
       const { attendees } = this.event
@@ -39,13 +42,7 @@ export default {
     eventOrganizer() {
       const { organizer } = this.event
       return organizer ? organizer.name : ''
-    },
-    ...mapState({
-      event: state => state.event.event
-    })
-  },
-  async created() {
-    this.$store.dispatch('event/fetchEvent', this.id)
+    }
   }
 }
 </script>
