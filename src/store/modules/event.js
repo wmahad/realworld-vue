@@ -1,6 +1,29 @@
 import { postEvent, getEvents, getEvent } from '@/utils/api'
 
-export default {
+export const namespaced = true
+
+export const state = {
+  events: [],
+  event: {},
+  total: 0
+}
+
+export const mutations = {
+  ADD_EVENT(state, event) {
+    state.events.push(event)
+  },
+  SET_EVENTS(state, events) {
+    state.events = events
+  },
+  SET_EVENTS_TOTAL(state, count) {
+    state.totalEvents = count
+  },
+  SET_EVENT(state, event) {
+    state.event = event
+  }
+}
+
+export const actions = {
   async createEvent({ commit }, event) {
     const res = await postEvent(event)
     commit('ADD_EVENT', res.data)
@@ -27,5 +50,11 @@ export default {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export const getters = {
+  getEventById: state => id => {
+    return state.events.find(event => event.id === id)
   }
 }

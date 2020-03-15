@@ -28,7 +28,7 @@ export default {
   },
   async created() {
     this.perPage = 3
-    await this.$store.dispatch('fetchEvents', { page: this.page })
+    await this.$store.dispatch('event/fetchEvents', { page: this.page })
   },
   computed: {
     page() {
@@ -37,7 +37,10 @@ export default {
     hasNextPage() {
       return this.totalEvents > this.page * this.perPage
     },
-    ...mapState(['events', 'totalEvents'])
+    ...mapState({
+      events: state => state.event.events,
+      totalEvents: state => state.event.events.total
+    })
   }
 }
 </script>

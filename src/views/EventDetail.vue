@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { getEvent } from '@/utils/api'
 import { mapState } from 'vuex'
 
 export default {
@@ -41,15 +40,12 @@ export default {
       const { organizer } = this.event
       return organizer ? organizer.name : ''
     },
-    ...mapState(['event'])
+    ...mapState({
+      event: state => state.event.event
+    })
   },
   async created() {
-    try {
-      const res = await getEvent(this.id)
-      this.event = res.data
-    } catch (error) {
-      console.log(error)
-    }
+    this.$store.dispatch('event/fetchEvent', this.id)
   }
 }
 </script>

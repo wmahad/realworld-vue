@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     async createEvent() {
-      const event = await this.$store.dispatch('createEvent', this.event)
+      const event = await this.$store.dispatch('event/createEvent', this.event)
       this.$router.push({
         name: 'event-detail',
         params: { id: event.id }
