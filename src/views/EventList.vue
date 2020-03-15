@@ -19,27 +19,37 @@
 </template>
 
 <script>
-import Card from '@/components/Card.vue'
 import { mapState } from 'vuex'
+import Card from '@/components/Card.vue'
+import store from '@/store'
+
+const fetchPageEvents = async (to, from, next) => {
+  const page = +to.query.page || 1
+  await store.dispatch('event/fetchEvents', { page })
+  to.params.page = page
+  next()
+}
 
 export default {
+  props: {
+    page: {
+      type: Number,
+      required: true
+    }
+  },
   components: {
     Card
   },
-  async created() {
-    this.perPage = 3
-    await this.$store.dispatch('event/fetchEvents', { page: this.page })
-  },
+  beforeRouteUpdate: fetchPageEvents,
+  beforeRouteEnter: fetchPageEvents,
   computed: {
-    page() {
-      return +this.$route.query.page || 1
-    },
     hasNextPage() {
       return this.totalEvents > this.page * this.perPage
     },
     ...mapState({
       events: state => state.event.events,
-      totalEvents: state => state.event.events.total
+      totalEvents: state => state.event.total,
+      perPage: state => state.event.perPage
     })
   }
 }

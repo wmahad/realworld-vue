@@ -5,7 +5,8 @@ export const namespaced = true
 export const state = {
   events: [],
   event: {},
-  total: 0
+  total: 0,
+  perPage: 3
 }
 
 export const mutations = {
@@ -16,7 +17,7 @@ export const mutations = {
     state.events = events
   },
   SET_EVENTS_TOTAL(state, count) {
-    state.totalEvents = count
+    state.total = count
   },
   SET_EVENT(state, event) {
     state.event = event
@@ -28,6 +29,11 @@ export const actions = {
     try {
       const res = await postEvent(event)
       commit('ADD_EVENT', res.data)
+      const notification = {
+        type: 'success',
+        message: 'Your event has been created!'
+      }
+      dispatch('notification/add', notification, { root: true })
       return res.data
     } catch (error) {
       const notification = {
@@ -38,16 +44,11 @@ export const actions = {
       throw error
     }
   },
-  async fetchEvents({ commit, dispatch }, { page, perPage = 3 }) {
+  async fetchEvents({ commit, dispatch, state }, { page }) {
     try {
-      const { data, headers } = await getEvents(page, perPage)
+      const { data, headers } = await getEvents(page, state.perPage)
       commit('SET_EVENTS_TOTAL', +headers['x-total-count'])
       commit('SET_EVENTS', data)
-      const notification = {
-        type: 'success',
-        message: 'Your event has been created!'
-      }
-      dispatch('notification/add', notification, { root: true })
     } catch (error) {
       const notification = {
         type: 'error',
