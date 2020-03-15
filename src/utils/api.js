@@ -9,6 +9,8 @@ const client = axios.create({
   }
 })
 
-export const getEvents = () => client.get('/events')
+export const getEvents = (page, perPage) => {
+  return client.get(`/events?_page=${page}&_limit=${perPage}`)
+}
 export const getEvent = id => client.get(`/events/${id}`)
 export const postEvent = event => client.post('/events', event)

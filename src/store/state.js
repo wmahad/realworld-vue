@@ -9,5 +9,7 @@ export default {
     'food',
     'community'
   ],
-  events: []
+  events: [],
+  event: {},
+  totalEvents: 0
 }

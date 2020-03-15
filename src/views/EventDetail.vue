@@ -28,14 +28,10 @@
 
 <script>
 import { getEvent } from '@/utils/api'
+import { mapState } from 'vuex'
 
 export default {
   props: ['id'],
-  data() {
-    return {
-      event: {}
-    }
-  },
   computed: {
     numberOfAttendees() {
       const { attendees } = this.event
@@ -44,7 +40,8 @@ export default {
     eventOrganizer() {
       const { organizer } = this.event
       return organizer ? organizer.name : ''
-    }
+    },
+    ...mapState(['event'])
   },
   async created() {
     try {
