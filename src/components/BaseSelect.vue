@@ -1,7 +1,9 @@
 <template>
   <div>
     <label v-if="label">{{ label }}</label>
-    <input :value="value" @input="updateValue" v-bind="$attrs" />
+    <select :value="value" @input="updateValue" v-bind="$attrs">
+      <option v-for="option in options" :key="option">{{ option }}</option>
+    </select>
   </div>
 </template>
 
@@ -10,7 +12,11 @@ export default {
   inheritAttrs: false,
   props: {
     label: String,
-    value: [String, Number]
+    value: [String, Number],
+    options: {
+      type: Array,
+      required: true
+    }
   },
   methods: {
     updateValue(event) {
