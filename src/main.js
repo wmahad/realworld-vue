@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import { registerGlobalComps } from './utils/register'
 import 'nprogress/nprogress.css'
+import DateFilter from './filters/date'
 
 /**
  * three solutions exist for showing progress bar
@@ -13,6 +14,7 @@ import 'nprogress/nprogress.css'
  * 3. global and per route guard
  */
 
+Vue.filter('date', DateFilter)
 Vue.use(Vuelidate)
 
 // register global components

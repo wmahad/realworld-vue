@@ -13,21 +13,14 @@
 </template>
 
 <script>
+import { fieldMixin } from '@/mixins/fieldMixin'
 export default {
-  inheritAttrs: false,
   props: {
-    label: String,
-    value: [String, Number],
     options: {
       type: Array,
       required: true
     }
   },
-  methods: {
-    updateValue(event) {
-      // <-- method triggered by input event
-      this.$emit('input', event.target.value)
-    }
-  }
+  mixins: [fieldMixin]
 }
 </script>
